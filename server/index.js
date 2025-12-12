@@ -1,28 +1,22 @@
 import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
 import dotenv from "dotenv";
-
-import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/user.js";  // <— Make sure this import exists
+import cors from "cors";
+import connectDB from "./config/db.js";
+import managerRoutes from "./routes/managerRoutes.js";
 
 dotenv.config();
+connectDB();
 
-const app = express();   // <<— MUST BE HERE BEFORE app.use()
-
+const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ROUTES — must come AFTER app is created
-app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);  // <— PROTECTED ROUTES
+// ROUTES
+app.use("/api/manager", managerRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Server is running...");
+});
 
 const PORT = process.env.PORT || 5000;
-
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected");
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch((err) => console.log(err));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

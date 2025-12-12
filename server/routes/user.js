@@ -1,14 +1,23 @@
 import express from "express";
 import { protect } from "../middleware/authMiddleware.js";
+import User from "../models/User.js";
 
 const router = express.Router();
 
-// Protected route example
-router.get("/me", protect, (req, res) => {
-  res.json({
-    message: "Protected route accessed!",
-    user: req.user,
-  });
+router.get("/me", protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+
+  } catch (err) {
+    console.error("USER ROUTE ERROR:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 export default router;
