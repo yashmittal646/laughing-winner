@@ -4,7 +4,7 @@ import OpenAI from "openai";
 
 const router = express.Router();
 
-router.post("/ask", protect, async (req, res) => {
+router.post("/general", protect, async (req, res) => {
   try {
     console.log("Loaded NVIDIA Key:", process.env.NVIDIA_API_KEY ? "OK" : "MISSING");
     console.log("Key starts with:", process.env.NVIDIA_API_KEY?.slice(0, 12));

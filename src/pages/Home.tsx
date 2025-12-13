@@ -13,7 +13,8 @@ import {
   Target,
 } from "lucide-react";
 
-import { Layout } from "@/components/Layout";
+import Layout from "@/components/Layout";
+
 import { MagneticButton } from "@/components/MagneticButton";
 import { TiltCard } from "@/components/TiltCard";
 import { LoginModal } from "@/components/LoginModal";

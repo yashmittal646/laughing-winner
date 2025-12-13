@@ -1,8 +1,9 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./config/db.js";
-import managerRoutes from "./routes/managerRoutes.js";
+import dotenv from "dotenv";
+import {connectDB} from "./db.js";
+import chatRoutes from "./routes/chatRoutes.js";
+import {fileURLToPath} from url;
 
 dotenv.config();
 connectDB();
@@ -11,12 +12,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ROUTES
-app.use("/api/manager", managerRoutes);
-
-app.get("/", (req, res) => {
-  res.send("Server is running...");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "public")));
+app.get("/general", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.use("/api", chatRoutes);
+
+app.listen(5000, () => {
+  console.log("Server running on port 5000");
+});

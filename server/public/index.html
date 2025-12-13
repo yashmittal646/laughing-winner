@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CreAIman – Idea Brainstormer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", system-ui, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #000000 0%, #111111 40%, #ffffff 100%);
+      color: white;
+      display: flex;
+    }
+
+    /* LEFT TOOLBAR */
+    .sidebar {
+      width: 70px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      gap: 25px;
+    }
+
+    .sidebar div {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .sidebar div:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px;
+    }
+
+    /* HEADER */
+    .header {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .header span {
+      color: #9f7aea;
+    }
+
+    /* AI RESPONSE AREA */
+    .chat-area {
+      flex: 1;
+      margin-top: 30px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .message {
+      max-width: 700px;
+      margin-bottom: 20px;
+      padding: 18px 22px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      line-height: 1.6;
+    }
+
+    /* INPUT BAR */
+    .input-bar {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 14px 18px;
+      backdrop-filter: blur(25px);
+    }
+
+    .input-bar select,
+    .input-bar input {
+      background: transparent;
+      border: none;
+      color: white;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .input-bar select {
+      padding-right: 10px;
+    }
+
+    .input-bar input {
+      flex: 1;
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, #7f5af0, #9f7aea);
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .send-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* FOOTER INFO */
+    .ai-info {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LEFT TOOLBAR -->
+  <div class="sidebar">
+    <div>☰</div>
+    <div>💡</div>
+    <div>📁</div>
+    <div>⚙️</div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="main">
+    <div class="header">
+      Cre<span>AIman</span>
+    </div>
+
+    <!-- CHAT / IDEAS -->
+    <div class="chat-area" id="chatArea">
+      <div class="message">
+        👋 Welcome!  
+        Choose a genre and ask the **Kimi K2 Thinking (NVIDIA)** AI to brainstorm ideas.
+      </div>
+    </div>
+
+    <!-- INPUT -->
+    <div>
+      <div class="input-bar">
+        <select id="genre">
+          <option>Startup</option>
+          <option>Story Writing</option>
+          <option>Content Creation</option>
+          <option>Game Ideas</option>
+          <option>AI Projects</option>
+        </select>
+
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Brainstorm an idea in this genre..."
+        />
+
+        <button class="send-btn" onclick="sendPrompt()">Send</button>
+      </div>
+
+      <div class="ai-info">
+        Powered by Kimi K2 (Thinking) • NVIDIA inference (backend required)
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function sendPrompt() {
+      const input = document.getElementById("userInput");
+      const genre = document.getElementById("genre").value;
+      const chat = document.getElementById("chatArea");
+
+      if (!input.value.trim()) return;
+
+      const userMessage = document.createElement("div");
+      userMessage.className = "message";
+      userMessage.textContent = `[${genre}] ${input.value}`;
+      chat.appendChild(userMessage);
+
+      input.value = "";
+
+      // Placeholder AI response
+      const aiMessage = document.createElement("div");
+      aiMessage.className = "message";
+      aiMessage.textContent =
+        "🤖 Kimi K2 Thinking AI will respond here once backend is connected.";
+      chat.appendChild(aiMessage);
+
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+
+</body>
+</html>
